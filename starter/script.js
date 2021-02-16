@@ -77,3 +77,55 @@
 // strict mode
 // typeof
 // console.log
+
+const INIT_SCORE = 20;
+
+window.secretNumber = Math.trunc(1 + Math.random() * 20);
+
+const say = msg => document.querySelector('.message').textContent = msg;
+const setInput = val => document.querySelector('.guess').value = val;
+const getInput = () => document.querySelector('.guess').value;
+const setScore = val => document.querySelector('.score').textContent = val;
+const getScore = () => document.querySelector('.score').textContent;
+const scoreDecrease = () => setScore(getScore() - 1);
+const getHighScore = () => document.querySelector('.highscore').textContent;
+const setHighScore = val => document.querySelector('.highscore').textContent = val;
+const again = () => {
+	window.secretNumber = Math.trunc(1 + Math.random() * 20);
+	say('Start guessing...');
+	setScore(INIT_SCORE);
+	setInput(null);
+};
+
+document.querySelector('.check').onclick = () => {
+	if (getScore() == 0) {
+		return;
+	}
+
+	const guess = getInput();
+
+	if (!guess) {
+		say('Invalid input!');
+	} else if (guess == secretNumber) {
+		say('You won!');
+		const highScore = getHighScore();
+		const score = getScore();
+		setHighScore(highScore > score ? highScore : score);
+		setScore(0);
+		window.secretNumber = Math.trunc(1 + Math.random() * 20)
+		return;
+	} else {
+		scoreDecrease();
+		if (guess < secretNumber) {
+			say('Too less!');
+		} else {
+			say('Too big!');
+		}
+	}
+
+	if (getScore() == 0) {
+		say('You lost!');
+	}
+};
+
+document.querySelector('.again').onclick = again;
