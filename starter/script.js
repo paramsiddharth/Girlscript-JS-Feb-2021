@@ -91,6 +91,8 @@ const scoreDecrease = () => setScore(getScore() - 1);
 const getHighScore = () => document.querySelector('.highscore').textContent;
 const setHighScore = val => document.querySelector('.highscore').textContent = val;
 const again = () => {
+	document.querySelector('.number').textContent = '?';
+	document.querySelector('body').style.backgroundColor = '#222';
 	window.secretNumber = Math.trunc(1 + Math.random() * 20);
 	say('Start guessing...');
 	setScore(INIT_SCORE);
@@ -107,7 +109,9 @@ document.querySelector('.check').onclick = () => {
 	if (!guess) {
 		say('Invalid input!');
 	} else if (guess == secretNumber) {
+		document.querySelector('.number').textContent = window.secretNumber;
 		say('You won!');
+		document.querySelector('body').style.backgroundColor = '#60b347';
 		const highScore = getHighScore();
 		const score = getScore();
 		setHighScore(highScore > score ? highScore : score);
@@ -124,6 +128,8 @@ document.querySelector('.check').onclick = () => {
 	}
 
 	if (getScore() == 0) {
+		document.querySelector('.number').textContent = window.secretNumber;
+		document.querySelector('body').style.backgroundColor = '#F22';
 		say('You lost!');
 	}
 };
